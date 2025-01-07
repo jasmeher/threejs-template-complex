@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
 import { Pane } from "tweakpane";
 
 import Time from "./Utils/Time.js";

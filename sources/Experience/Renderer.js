@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
 import Experience from "./Experience.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
@@ -30,7 +30,7 @@ export default class Renderer {
     this.clearColor = "#211d20";
 
     // Renderer
-    this.instance = new THREE.WebGLRenderer({
+    this.instance = new THREE.WebGPURenderer({
       alpha: false,
       antialias: true,
     });
@@ -52,12 +52,12 @@ export default class Renderer {
     this.instance.toneMapping = THREE.NoToneMapping;
     this.instance.toneMappingExposure = 1;
 
-    this.context = this.instance.getContext();
+    // this.context = this.instance.getContext();
 
-    // Add stats panel
-    if (this.stats) {
-      this.stats.setRenderPanel(this.context);
-    }
+    // // Add stats panel
+    // if (this.stats) {
+    //   this.stats.setRenderPanel(this.context);
+    // }
 
     // Debug
     if (this.debug) {
@@ -137,19 +137,19 @@ export default class Renderer {
   }
 
   update() {
-    if (this.stats) {
-      this.stats.beforeRender();
-    }
+    // if (this.stats) {
+    //   this.stats.beforeRender();
+    // }
 
     if (this.usePostprocess) {
       this.postProcess.composer.render();
     } else {
-      this.instance.render(this.scene, this.camera.instance);
+      this.instance.renderAsync(this.scene, this.camera.instance);
     }
 
-    if (this.stats) {
-      this.stats.afterRender();
-    }
+    // if (this.stats) {
+    //   this.stats.afterRender();
+    // }
   }
 
   destroy() {

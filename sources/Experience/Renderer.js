@@ -49,8 +49,8 @@ export default class Renderer {
     this.instance.outputEncoding = THREE.sRGBEncoding;
     // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
     // this.instance.shadowMap.enabled = false
-    this.instance.toneMapping = THREE.NoToneMapping;
-    this.instance.toneMappingExposure = 1;
+    this.instance.toneMapping = THREE.ACESFilmicToneMapping;
+    this.instance.toneMappingExposure = 2;
 
     // this.context = this.instance.getContext();
 

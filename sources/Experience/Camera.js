@@ -1,6 +1,7 @@
 import * as THREE from "three/webgpu";
 import Experience from "./Experience.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { label } from "three/tsl";
 
 export default class Camera {
   constructor(_options) {
@@ -54,9 +55,43 @@ export default class Camera {
     this.modes.debug.orbitControls.enabled = this.modes.debug.active;
     this.modes.debug.orbitControls.screenSpacePanning = true;
     this.modes.debug.orbitControls.enableKeys = false;
-    this.modes.debug.orbitControls.zoomSpeed = 0.25;
+    this.modes.debug.orbitControls.zoomSpeed = 1;
     this.modes.debug.orbitControls.enableDamping = true;
     this.modes.debug.orbitControls.update();
+
+    /* Debug Mode */
+
+    if (this.debug) {
+      this.debugFolder = this.debug.addFolder({
+        title: "Camera",
+      });
+
+      this.debugFolder.addBinding(this, "mode", {
+        options: {
+          default: "default",
+          debug: "debug",
+        },
+        label: "Camera Mode",
+      });
+
+      this.copyButton = this.debugFolder.addButton({
+        title: "Sync Transform",
+        label: "Sync Debug to Default Camera",
+      });
+
+      this.copyButton.on("click", (e) => {
+        this.modes.default.instance.position.copy(
+          this.modes.debug.instance.position
+        );
+        this.modes.default.instance.quaternion.copy(
+          this.modes.debug.instance.quaternion
+        );
+        e.target.title = "Synced!";
+        setTimeout(() => {
+          e.target.title = "Sync Transform";
+        }, 1000);
+      });
+    }
   }
 
   resize() {
@@ -72,6 +107,7 @@ export default class Camera {
 
   update() {
     // Update debug orbit controls
+
     this.modes.debug.orbitControls.update();
 
     // Apply coordinates

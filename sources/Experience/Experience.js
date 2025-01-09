@@ -65,6 +65,10 @@ export default class Experience {
   setDebug() {
     if (this.config.debug) {
       this.debug = new Pane({ title: "DEBUG PANEL" });
+      this.debug.element.style.width = "300px";
+      this.debug.element.style.position = "fixed";
+      this.debug.element.style.right = "5px";
+      this.debug.element.style.top = "5px";
     }
   }
 
